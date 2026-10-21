@@ -1,0 +1,22 @@
+name: npc-system
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      # Orchestrazione del grafo e astrazione LLM
+      - langgraph
+      - langchain
+      # Provider LLM
+      - langchain-groq
+      - langchain-google-genai
+      # Memoria persistente (checkpointer su SQLite)
+      - langgraph-checkpoint-sqlite
+      # Configurazione e chiavi API
+      - python-dotenv
+      # Interfaccia CLI
+      - rich
+      # Test
+      - pytest
+ 

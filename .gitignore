@@ -1,0 +1,40 @@
+# --- Segreti ---
+.env
+.env.*
+!.env.example
+
+# --- Ambiente virtuale ---
+.venv/
+venv/
+env/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# --- Test e cache ---
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Checkpoint LangGraph (memoria persistente) ---
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+
+# --- Log e output generati ---
+logs/
+*.log
+
+# --- Editor e sistema operativo ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
