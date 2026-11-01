@@ -1,0 +1,46 @@
+{
+  "quests": {
+    "cassa_spezie": {
+      "titolo": "La cassa di spezie",
+      "descrizione": "Recuperare la cassa di spezie caduta dal carro di Osvaldo lungo la strada del mulino.",
+      "assegnata_da": "mercante",
+      "ricompensa_monete": 30,
+      "completata": true
+    },
+    "pellicce_lupo": {
+      "titolo": "Pellicce per l'inverno",
+      "descrizione": "Portare a Osvaldo tre pellicce dei lupi della foresta a nord del villaggio.",
+      "assegnata_da": "mercante",
+      "ricompensa_monete": 50,
+      "completata": false
+    },
+    "farfalla_azzurra": {
+      "titolo": "La farfalla azzurra",
+      "descrizione": "Catturare senza rovinarla la rara farfalla azzurra che vive vicino al lago, per la collezione di Patrizio.",
+      "assegnata_da": "guardia",
+      "ricompensa_monete": 20,
+      "completata": true
+    },
+    "banditi_ponte": {
+      "titolo": "I banditi del vecchio ponte",
+      "descrizione": "Scacciare i banditi accampati vicino al vecchio ponte, che derubano i viaggiatori diretti al villaggio.",
+      "assegnata_da": "guardia",
+      "ricompensa_monete": 80,
+      "completata": false
+    },
+    "messaggio_sigillato": {
+      "titolo": "Il messaggio sigillato",
+      "descrizione": "Consegnare un messaggio sigillato a un contatto di Marlon alla taverna, senza aprirlo.",
+      "assegnata_da": "ladro",
+      "ricompensa_monete": 25,
+      "completata": true
+    },
+    "chiave_magazzino": {
+      "titolo": "Un calco di cera",
+      "descrizione": "Procurare a Marlon un calco in cera della chiave del magazzino di Osvaldo.",
+      "assegnata_da": "ladro",
+      "ricompensa_monete": 60,
+      "completata": false
+    }
+  }
+}
