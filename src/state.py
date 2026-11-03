@@ -23,7 +23,13 @@ class WorldState(MessagesState):
 def carica_npc() -> dict:
     """Dati statici degli NPC (personalità, stile, relazioni, inventario)."""
     with open(DATA_DIR / "npc.json", encoding="utf-8") as f:
-        return json.load(f)
+        return json.load(f)["npc"]
+
+
+def carica_quest() -> dict:
+    """Quest del mondo (id → titolo, descrizione, assegnata_da, ricompensa, completata)."""
+    with open(DATA_DIR / "quests.json", encoding="utf-8") as f:
+        return json.load(f)["quests"]
 
 
 def stato_iniziale(npc_attivo: str = "mercante") -> WorldState:
@@ -34,7 +40,7 @@ def stato_iniziale(npc_attivo: str = "mercante") -> WorldState:
         npc_attivo=npc_attivo,
         npc={
             nome: NPCState(fiducia=info["fiducia_iniziale"], umore=info["umore_iniziale"])
-            for nome, info in dati["npc"].items()
+            for nome, info in dati.items()
         },
         eventi=[],
     )
