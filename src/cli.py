@@ -2,12 +2,14 @@
 
 import questionary
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
-from langgraph.checkpoint.memory import InMemorySaver
 from rich.console import Console
 from rich.markup import escape
 from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.table import Table
+from langgraph.checkpoint.sqlite import SqliteSaver
+import sqlite3
+from pathlib import Path
 
 from src.graph import costruisci_grafo
 from src.state import carica_npc, stato_iniziale
@@ -15,6 +17,28 @@ from src.state import carica_npc, stato_iniziale
 console = Console()
 COLORI = {"mercante": "yellow", "guardia": "blue", "ladro": "magenta"}
 COMANDI = "[dim]Comandi: /stato · /debug · esci[/]"
+SAVE_DIR = Path(__file__).resolve().parent.parent / "salvataggi"
+DB_PATH = SAVE_DIR / "partite.db"
+NUOVA = "+ Nuova partita"
+
+
+def connessione_db() -> SqliteSaver:
+    """Checkpointer su file: le partite sopravvivono alla chiusura del programma."""
+    SAVE_DIR.mkdir(exist_ok=True)
+    return SqliteSaver(sqlite3.connect(DB_PATH, check_same_thread=False))
+
+
+def scegli_partita(checkpointer: SqliteSaver) -> str | None:
+    """thread_id della partita da giocare: una esistente o una nuova. None se annullato."""
+    partite = {c.config["configurable"]["thread_id"] for c in checkpointer.list(None)}
+    scelta = questionary.select("Scegli la partita", choices=[NUOVA, *sorted(partite)]).ask()
+    if scelta == NUOVA:
+        nome_p = questionary.text("Nome della nuova partita:").ask()
+        while nome_p in partite:
+            nome_p = questionary.text("Nome già presente, scegline un altro:").ask()
+        return nome_p
+    return scelta
+
 
 
 def tabella_stato(stato: dict, npc: dict) -> Table:
@@ -39,12 +63,34 @@ def mostra_passi(messaggi: list) -> None:
             console.print(f"[dim]  ← {escape(str(m.content))}[/]")
 
 
+def mostra_riepilogo(messaggi: list, npc: dict, n: int = 4) -> None:
+    """Le ultime n battute della partita, alla ripresa (senza tool call e risultati)."""
+    battute = [m for m in messaggi
+               if isinstance(m, HumanMessage) or (isinstance(m, AIMessage) and not m.tool_calls)]
+    for m in battute[-n:]:
+        if isinstance(m, HumanMessage):
+            console.print(f"[dim]Tu: {escape(m.content)}[/]")
+        else:
+            chi = npc.get(m.name, {}).get("nome", "?")  # battute vecchie senza firma → "?"
+            console.print(f"[dim]{chi}: {escape(m.content)}[/]")
+
+
 def main():
-    graph = costruisci_grafo().compile(checkpointer=InMemorySaver())
-    config = {"configurable": {"thread_id": "1"}}
+    memory = connessione_db()
+    graph = costruisci_grafo().compile(checkpointer=memory)
     npc = carica_npc()
 
     console.print(Panel.fit("[bold]Benvenuto al villaggio[/]", border_style="green"))
+    
+    thread_id = scegli_partita(memory)
+    if not thread_id:
+        return
+    config = {"configurable": {"thread_id": thread_id}}
+
+    salvato = graph.get_state(config).values
+    if salvato:
+        console.print(f"\n[bold]Partita \"{escape(thread_id)}\": eri rimasto qui[/]")
+        mostra_riepilogo(salvato["messages"], npc)
 
     # Fino alla Fase 5 (router) l'NPC si sceglie dal menu.
     scelta = questionary.select(
@@ -75,7 +121,7 @@ def main():
                 console.print(f"[dim]Debug {'attivo' if debug else 'disattivo'}[/]")
                 continue
 
-            messaggio = {"messages": [HumanMessage(content=testo)]}
+            messaggio = {"messages": [HumanMessage(content=testo)], "npc_attivo": scelta}
             if not valori:  # primo turno: la partita non esiste ancora
                 messaggio = stato_iniziale(scelta) | messaggio
             n_prima = len(valori.get("messages", []))
