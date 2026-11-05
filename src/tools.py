@@ -31,6 +31,6 @@ TOOLS = [verifica_quest, consulta_inventario]  # tutti: li esegue il ToolNode
 _PER_NOME = {t.name: t for t in TOOLS}
 
 
-def strumenti_npc(nome_npc: str) -> list:
+def strumenti_npc(ruolo: str) -> list:
     """I tool che l'NPC può usare, dal campo 'strumenti' di npc.json (per bind_tools)."""
-    return [_PER_NOME[nome] for nome in carica_npc()[nome_npc].get("strumenti", [])]
+    return [_PER_NOME[nome_tool] for nome_tool in carica_npc()[ruolo].get("strumenti", [])]

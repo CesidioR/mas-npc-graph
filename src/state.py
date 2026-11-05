@@ -6,11 +6,12 @@ from typing_extensions import TypedDict
 from langgraph.graph import MessagesState
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+Umore = Literal["arrabbiato", "sereno", "sospettoso", "gioioso"]
 
 class NPCState(TypedDict):
     """Stato degli NPC"""
     fiducia: int  # 0-100
-    umore: Literal["arrabbiato", "sereno", "sospettoso", "gioioso"]
+    umore: Umore
 
 
 class WorldState(MessagesState):

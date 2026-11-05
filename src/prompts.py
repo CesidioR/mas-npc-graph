@@ -54,15 +54,24 @@ def descrivi_fiducia(fiducia: int) -> str:
     return "ti fidi del giocatore e lo consideri un amico"
 
 
+# Come l'umore cambia il modo di parlare: una parola sola ("arrabbiato") il modello la ignora.
+TONO_UMORE = {
+    "arrabbiato": "sei arrabbiato con il giocatore: rispondi brusco e freddo, a frasi corte, senza complimenti né vezzeggiativi, e fagli pesare ciò che ha fatto",
+    "sospettoso": "sei sospettoso: rispondi guardingo e asciutto, con frecciatine, e non concedere nulla sulla parola",
+    "sereno": "sei sereno: parli nel tuo modo abituale",
+    "gioioso": "sei di ottimo umore: sei caloroso, espansivo e più generoso del solito nei modi",
+}
+
+
 def _nomi(chiavi: list[str], npc: dict) -> str:
     """['guardia'] → 'Patrizio (guardia)'; lista vuota → 'nessuno'."""
     return ", ".join(f"{npc[k]['nome']} ({k})" for k in chiavi) or "nessuno"
 
 
-def system_prompt(nome_npc: str, state: WorldState) -> str:
+def system_prompt(ruolo: str, state: WorldState) -> str:
     npc = carica_npc()
-    info = npc[nome_npc]                 # statico: chi è
-    attuale = state["npc"][nome_npc]     # dinamico: com'è adesso
+    info = npc[ruolo]                 # statico: chi è
+    attuale = state["npc"][ruolo]     # dinamico: com'è adesso
 
     # Lo sconto è una regola deterministica: decide Python, non l'LLM.
     commercio = ""
@@ -92,9 +101,9 @@ Chi sei:
 Come parli:
 {info['stile']}
 
-Come ti senti ora:
+Come ti senti ora (ha la precedenza sul tuo modo abituale di parlare):
 Fiducia verso il giocatore: {attuale['fiducia']}/100, cioè {descrivi_fiducia(attuale['fiducia'])}.
-Umore: {attuale['umore']}.{commercio}
+Umore: {attuale['umore']}: {TONO_UMORE[attuale['umore']]}.{commercio}
 
 Relazioni:
 Alleati: {_nomi(info['amico'], npc)}
@@ -103,7 +112,7 @@ Rivali: {_nomi(info['nemico'], npc)}
 Quest del villaggio che conosci (id: titolo):
 {quest}
 
-Cose che ricordi o hai sentito dire:
+Cose che ricordi o hai sentito dire (se il giocatore ti ha mentito o offeso, non l'hai dimenticato):
 {ricordi}
 
 {regole(info.get('strumenti', []))}"""
