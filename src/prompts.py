@@ -26,6 +26,7 @@ REGOLE_STRUMENTI = {
         "Se il giocatore afferma di aver completato una quest, verificalo SEMPRE con lo strumento verifica_quest prima di rispondere: i giocatori a volte mentono. Non credere alla sua parola.",
         "Se la verifica dice che la quest non è completata o non esiste, il giocatore ti ha mentito: reagisci come farebbe il tuo personaggio.",
         "Paga la ricompensa solo per le quest assegnate da te. Per quelle assegnate da altri non pagare: di' al giocatore di riscuotere da chi gliel'ha affidata.",
+        "Ogni ricompensa si paga una sola volta: se nella conversazione l'hai già pagata, non pagarla di nuovo e ricordaglielo.",
     ],
     "consulta_inventario": [
         "Per merce e prezzi usa lo strumento consulta_inventario. Nomina solo oggetti e prezzi che hai controllato con lo strumento: non inventarne mai.",

@@ -16,7 +16,9 @@ from src.state import carica_npc, stato_iniziale
 
 console = Console()
 COLORI = {"mercante": "yellow", "guardia": "blue", "ladro": "magenta"}
-COMANDI = "[dim]Comandi: /stato · /debug · esci[/]"
+COMANDI = "[dim]Comandi: /cambia · /stato · /debug · esci[/]"
+# Parole di congedo: dopo la risposta dell'NPC si torna al menu. "ciao" no: è anche un saluto iniziale.
+CONGEDI = ("arrivederci", "addio", "a presto", "alla prossima", "devo andare", "me ne vado")
 SAVE_DIR = Path(__file__).resolve().parent.parent / "salvataggi"
 DB_PATH = SAVE_DIR / "partite.db"
 NUOVA = "+ Nuova partita"
@@ -63,79 +65,100 @@ def mostra_passi(messaggi: list) -> None:
             console.print(f"[dim]  ← {escape(str(m.content))}[/]")
 
 
-def mostra_riepilogo(messaggi: list, npc: dict, n: int = 4) -> None:
-    """Le ultime n battute della partita, alla ripresa (senza tool call e risultati)."""
-    battute = [m for m in messaggi
-               if isinstance(m, HumanMessage) or (isinstance(m, AIMessage) and not m.tool_calls)]
-    for m in battute[-n:]:
+def scambi_con(messaggi: list, ruolo: str) -> list[tuple[str, str]]:
+    """Coppie (frase del giocatore, risposta) dei turni in cui ha risposto l'NPC `ruolo`."""
+    scambi, domanda = [], None
+    for m in messaggi:
         if isinstance(m, HumanMessage):
-            console.print(f"[dim]Tu: {escape(m.content)}[/]")
-        else:
-            chi = npc.get(m.name, {}).get("nome", "?")  # battute vecchie senza firma → "?"
-            console.print(f"[dim]{chi}: {escape(m.content)}[/]")
+            domanda = m.content
+        elif isinstance(m, AIMessage) and not m.tool_calls and m.name == ruolo and domanda is not None:
+            scambi.append((domanda, m.content))
+    return scambi
 
 
+def mostra_riepilogo(messaggi: list, ruolo: str, nome: str, n: int = 2) -> None:
+    """Gli ultimi n scambi con questo NPC, quando torni a parlarci."""
+    scambi = scambi_con(messaggi, ruolo)[-n:]
+    if scambi:
+        console.print(f"[dim]L'ultima volta con {nome}:[/]")
+        for domanda, risposta in scambi:
+            console.print(f"[dim]  Tu: {escape(domanda)}\n  {nome}: {escape(risposta)}[/]")
+        console.print()
+
+
+def scegli_npc(npc: dict) -> str | None:
+    """Ruolo dell'NPC con cui parlare. None se annullato."""
+    return questionary.select(
+        "Con chi vuoi parlare?",
+        choices=[questionary.Choice(f"{info['nome']} ({ruolo})", value=ruolo) for ruolo, info in npc.items()],
+    ).ask()
+
+
+def conversazione(graph, config: dict, ruolo: str, npc: dict, opzioni: dict) -> str:
+    """Chat con un NPC finché il giocatore non cambia interlocutore ("cambia") o chiude ("esci")."""
+    nome, colore = npc[ruolo]["nome"], COLORI.get(ruolo, "white")
+    console.print(f"\nStai parlando con [bold {colore}]{nome}[/]. {COMANDI}\n")
+    mostra_riepilogo(graph.get_state(config).values.get("messages", []), ruolo, nome)
+
+    while True:
+        testo = Prompt.ask("[bold]Tu[/]").strip()
+        comando = testo.lower()
+        if comando in {"esci", "quit", "exit"}:
+            return "esci"
+        if comando == "/cambia":
+            return "cambia"
+        if not testo:
+            continue
+
+        valori = graph.get_state(config).values
+        if comando == "/stato":
+            console.print(tabella_stato(valori or stato_iniziale(ruolo), npc))
+            continue
+        if comando == "/debug":
+            opzioni["debug"] = not opzioni["debug"]
+            console.print(f"[dim]Debug {'attivo' if opzioni['debug'] else 'disattivo'}[/]")
+            continue
+
+        messaggio = {"messages": [HumanMessage(content=testo)], "npc_attivo": ruolo}
+        if not valori:  # primo turno: la partita non esiste ancora
+            messaggio = stato_iniziale(ruolo) | messaggio
+        n_prima = len(valori.get("messages", []))
+
+        try:
+            with console.status(f"[dim]{nome} ci pensa...[/]"):
+                risultato = graph.invoke(messaggio, config)
+        except Exception as e:  # es. limite del free tier o rete assente
+            console.print(f"[red]Errore: {escape(str(e))}[/]")
+            continue
+
+        if opzioni["debug"]:
+            mostra_passi(risultato["messages"][n_prima + 1:])  # +1: salta il messaggio del giocatore
+        console.print(f"[bold {colore}]{nome}:[/] {escape(risultato['messages'][-1].content)}\n")
+
+        if any(parola in comando for parola in CONGEDI):  # l'NPC ha già risposto al saluto
+            return "cambia"
+
+  
 def main():
     memory = connessione_db()
     graph = costruisci_grafo().compile(checkpointer=memory)
     npc = carica_npc()
 
     console.print(Panel.fit("[bold]Benvenuto al villaggio[/]", border_style="green"))
-    
+
     thread_id = scegli_partita(memory)
     if not thread_id:
         return
     config = {"configurable": {"thread_id": thread_id}}
+    if graph.get_state(config).values:
+        console.print(f"\n[bold]Bentornato nella partita \"{escape(thread_id)}\".[/]")
 
-    salvato = graph.get_state(config).values
-    if salvato:
-        console.print(f"\n[bold]Partita \"{escape(thread_id)}\": eri rimasto qui[/]")
-        mostra_riepilogo(salvato["messages"], npc)
-
-    # Fino alla Fase 5 (router) l'NPC si sceglie dal menu.
-    scelta = questionary.select(
-        "Con chi vuoi parlare?",
-        choices=[questionary.Choice(f"{info['nome']} ({chiave})", value=chiave) for chiave, info in npc.items()],
-    ).ask()
-    if scelta is None:  # Ctrl+C nel menu
-        return
-    nome, colore = npc[scelta]["nome"], COLORI.get(scelta, "white")
-    console.print(f"\nStai parlando con [bold {colore}]{nome}[/]. {COMANDI}\n")
-
-    debug = False
+    opzioni = {"debug": False}
     try:
         while True:
-            testo = Prompt.ask("[bold]Tu[/]").strip()
-            comando = testo.lower()
-            if comando in {"esci", "quit", "exit"}:
+            ruolo = scegli_npc(npc)
+            if ruolo is None or conversazione(graph, config, ruolo, npc, opzioni) == "esci":
                 break
-            if not testo:
-                continue
-
-            valori = graph.get_state(config).values
-            if comando == "/stato":
-                console.print(tabella_stato(valori or stato_iniziale(scelta), npc))
-                continue
-            if comando == "/debug":
-                debug = not debug
-                console.print(f"[dim]Debug {'attivo' if debug else 'disattivo'}[/]")
-                continue
-
-            messaggio = {"messages": [HumanMessage(content=testo)], "npc_attivo": scelta}
-            if not valori:  # primo turno: la partita non esiste ancora
-                messaggio = stato_iniziale(scelta) | messaggio
-            n_prima = len(valori.get("messages", []))
-
-            try:
-                with console.status(f"[dim]{nome} ci pensa...[/]"):
-                    risultato = graph.invoke(messaggio, config)
-            except Exception as e:  # es. limite del free tier o rete assente
-                console.print(f"[red]Errore: {escape(str(e))}[/]")
-                continue
-
-            if debug:
-                mostra_passi(risultato["messages"][n_prima + 1:])  # +1: salta il messaggio del giocatore
-            console.print(f"[bold {colore}]{nome}:[/] {escape(risultato['messages'][-1].content)}\n")
     except (KeyboardInterrupt, EOFError):
         pass
     console.print("\n[dim]Alla prossima, viaggiatore.[/]")
