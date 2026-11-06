@@ -5,6 +5,7 @@ from src.nodes.npc_agent import npc_agent
 from src.nodes.valutatore import valutatore
 from src.state import WorldState
 from src.tools import TOOLS
+from src.nodes.gossip import gossip
 
 
 def costruisci_grafo() -> StateGraph:
@@ -13,11 +14,13 @@ def costruisci_grafo() -> StateGraph:
     builder.add_node("npc_agent", npc_agent)
     builder.add_node("tools", ToolNode(TOOLS))
     builder.add_node("valutatore", valutatore)
+    builder.add_node("gossip", gossip)
 
     builder.add_edge(START, "npc_agent")
     builder.add_conditional_edges("npc_agent", tools_condition, {"tools": "tools", END: "valutatore"})
     builder.add_edge("tools", "npc_agent") 
-    builder.add_edge("valutatore", END)
+    builder.add_edge("valutatore", "gossip")
+    builder.add_edge("gossip", END)
     return builder
 
 

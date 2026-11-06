@@ -1,5 +1,5 @@
 from typing import Literal, get_args
-from src.state import WorldState, Umore, carica_npc
+from src.state import WorldState, Umore, carica_npc, Evento, Giudizio
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage, SystemMessage
 from pydantic import BaseModel, Field
 from src.llm import get_llm
@@ -75,8 +75,10 @@ def valutatore(state: WorldState) -> dict:
     attuale = state["npc"][ruolo]
     contesto = f"NPC: {nome_npc} ({ruolo}). Umore attuale: {attuale['umore']}.\n\nTrascrizione del turno:\n{trascrivi_turno(state['messages'], nome_npc)}"
     v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+    evento = Evento(npc=ruolo, testo=v.evento, fonte="vissuto") if v.evento else None
+
     
     nuova_fiducia = max(0, min(100, attuale["fiducia"] + DELTA_FIDUCIA[v.azione]))
     npc = {**state["npc"], ruolo: {"fiducia": nuova_fiducia, "umore": v.umore}}
-    return {"npc": npc, "eventi": [v.evento] if v.evento else []}
+    return {"npc": npc, "eventi": [evento] if evento else [], "ultimo_giudizio": Giudizio(ruolo=ruolo, azione=v.azione, delta=DELTA_FIDUCIA[v.azione], evento=v.evento)}
     

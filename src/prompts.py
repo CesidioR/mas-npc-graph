@@ -4,7 +4,7 @@ Il prompt si ricostruisce a ogni turno: unisce i dati statici (npc.json),
 lo stato corrente della partita (fiducia, umore, eventi) e l'elenco delle quest.
 """
 
-from src.state import WorldState, carica_npc, carica_quest
+from src.state import WorldState, carica_npc, carica_quest, Evento
 
 MAX_EVENTI = 10  # solo i ricordi più recenti, la lista cresce a ogni turno
 
@@ -17,7 +17,12 @@ REGOLA_MONDO = (
     "Vivi in un villaggio di un mondo fantasy medievale: non conosci tecnologie, luoghi o fatti del mondo moderno. "
     "L'unica moneta è la moneta d'oro."
 )
-REGOLA_TONO = "Rivolgiti al giocatore sempre allo stesso modo (tu oppure voi, come negli esempi del tuo stile), senza cambiare a metà."
+REGOLA_REAZIONE = (
+    "Fiducia e umore descrivono come ti sentivi PRIMA dell'ultima frase del giocatore. "
+    "Se in questa frase ti offende, ti minaccia o ti accusa, reagisci subito come farebbe il tuo personaggio, "
+    "anche se finora ti era simpatico: non ignorare l'offesa e non rispondere come se nulla fosse."
+)
+REGOLA_TONO ="Rivolgiti al giocatore sempre allo stesso modo (tu oppure voi, come negli esempi del tuo stile), senza cambiare a metà."
 REGOLA_FORMATO = "Rispondi in italiano, in 1-3 frasi, come una battuta di dialogo."
 
 # Regole che compaiono solo se l'NPC ha lo strumento (campo "strumenti" di npc.json).
@@ -41,7 +46,7 @@ def regole(strumenti: list[str]) -> str:
         righe += REGOLE_STRUMENTI.get(s, [])
     if strumenti:
         righe.append(REGOLA_NASCONDI_STRUMENTI)
-    righe += [REGOLA_TONO, REGOLA_FORMATO]
+    righe += [REGOLA_REAZIONE, REGOLA_TONO, REGOLA_FORMATO]
     return "Regole:\n" + "\n".join(f"- {r}" for r in righe)
 
 
@@ -91,10 +96,22 @@ def system_prompt(ruolo: str, state: WorldState) -> str:
         f"- {id_q}: {q['titolo']} (assegnata da {npc[q['assegnata_da']]['nome']})"
         for id_q, q in carica_quest().items()
     )
+    
+    eventi_npc = [e for e in state["eventi"] if e["npc"] == ruolo][-MAX_EVENTI:]
+    vissuti = [e["testo"] for e in eventi_npc if e["fonte"] == "vissuto"]
+    voci = [e["testo"] for e in eventi_npc if e["fonte"] == "sentito dire"]
 
-    ricordi = "\n".join(f"- {e}" for e in state["eventi"][-MAX_EVENTI:]) or "- Nessun ricordo particolare."
+    ricordi = "\n".join(f"- {t}" for t in vissuti) or "- Nessun ricordo particolare."
+    # Le voci arrivano dal gossip: in una sezione a parte, se no il modello le ignora.
+    sezione_voci = ""
+    if voci:
+        sezione_voci = (
+            "\n\nVoci che hai sentito in giro su QUESTO giocatore (non c'eri, te l'hanno raccontato):\n"
+            + "\n".join(f"- {t}" for t in voci)
+            + "\nNon lo tratti come uno sconosciuto qualunque: fagli capire, a modo tuo, che ne hai sentito parlare."
+        )
 
-    return f"""Sei {info['nome']}. Stai parlando con un giocatore, un viaggiatore appena arrivato al villaggio.
+    return f"""Sei {info['nome']}. Stai parlando con un giocatore, un viaggiatore arrivato da poco al villaggio.
 
 Chi sei:
 {info['personalita']}
@@ -113,7 +130,7 @@ Rivali: {_nomi(info['nemico'], npc)}
 Quest del villaggio che conosci (id: titolo):
 {quest}
 
-Cose che ricordi o hai sentito dire (se il giocatore ti ha mentito o offeso, non l'hai dimenticato):
-{ricordi}
+Cose che ti sono successe con il giocatore (se ti ha mentito o offeso, non l'hai dimenticato):
+{ricordi}{sezione_voci}
 
 {regole(info.get('strumenti', []))}"""

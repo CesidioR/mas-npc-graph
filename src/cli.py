@@ -65,6 +65,20 @@ def mostra_passi(messaggi: list) -> None:
             console.print(f"[dim]  ← {escape(str(m.content))}[/]")
 
 
+def mostra_effetti(prima: dict, dopo: dict, npc: dict) -> None:
+    """Debug: giudizio del valutatore, fiducia/umore cambiati (anche dal gossip) e nuovi eventi."""
+    g = dopo.get("ultimo_giudizio")
+    if g:
+        console.print(f"[dim]  [valutatore] {g['azione']} ({g['delta']:+d}) su {npc[g['ruolo']]['nome']}[/]")
+    for ruolo, s in dopo["npc"].items():
+        vecchio = prima["npc"][ruolo]
+        if s != vecchio:
+            console.print(f"[dim]  [stato] {npc[ruolo]['nome']}: fiducia {vecchio['fiducia']} → {s['fiducia']}, "
+                          f"umore {vecchio['umore']} → {s['umore']}[/]")
+    for e in dopo["eventi"][len(prima.get("eventi", [])):]:
+        console.print(f"[dim]  [evento] {npc[e['npc']]['nome']} ({e['fonte']}): {escape(e['testo'])}[/]")
+
+
 def scambi_con(messaggi: list, ruolo: str) -> list[tuple[str, str]]:
     """Coppie (frase del giocatore, risposta) dei turni in cui ha risposto l'NPC `ruolo`."""
     scambi, domanda = [], None
@@ -131,9 +145,11 @@ def conversazione(graph, config: dict, ruolo: str, npc: dict, opzioni: dict) -> 
             console.print(f"[red]Errore: {escape(str(e))}[/]")
             continue
 
+        console.print(f"[bold {colore}]{nome}:[/] {escape(risultato['messages'][-1].content)}")
         if opzioni["debug"]:
             mostra_passi(risultato["messages"][n_prima + 1:])  # +1: salta il messaggio del giocatore
-        console.print(f"[bold {colore}]{nome}:[/] {escape(risultato['messages'][-1].content)}\n")
+            mostra_effetti(valori or messaggio, risultato, npc)
+        console.print()
 
         if any(parola in comando for parola in CONGEDI):  # l'NPC ha già risposto al saluto
             return "cambia"

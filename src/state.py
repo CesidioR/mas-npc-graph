@@ -12,13 +12,26 @@ class NPCState(TypedDict):
     """Stato degli NPC"""
     fiducia: int  # 0-100
     umore: Umore
+    
+class Giudizio(TypedDict):
+    ruolo: str 
+    azione: str
+    delta: int
+    evento: str | None
+    
+
+class Evento(TypedDict):
+    npc: str
+    testo: str
+    fonte: Literal["vissuto", "sentito dire"]
 
 
 class WorldState(MessagesState):
     """Stato del mondo di gioco"""
     npc_attivo: str
     npc: dict[str, NPCState]
-    eventi: Annotated[list[str], add]  # memoria a lungo termine 
+    eventi: Annotated[list[Evento], add]  # memoria a lungo termine 
+    ultimo_giudizio: Giudizio | None
 
 
 def carica_npc() -> dict:
@@ -44,4 +57,5 @@ def stato_iniziale(npc_attivo: str = "mercante") -> WorldState:
             for nome, info in dati.items()
         },
         eventi=[],
+        ultimo_giudizio=None
     )
