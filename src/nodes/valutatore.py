@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from src.llm import get_llm
 
 
-Azione = Literal["insulto", "bugia", "quest_completata", "complimento", "neutro"]
+Azione = Literal["insulto", "bugia", "quest_completata", "aiuto", "complimento", "neutro"]
 
 
 # 1. La forma del giudizio: cosa deve restituire l'LLM
@@ -22,8 +22,9 @@ class Valutazione(BaseModel):
 DELTA_FIDUCIA: dict[str, int] = {
     "insulto": -15,
     "bugia": -20,
-    "quest_completata": 10,
-    "complimento": 3,
+    "quest_completata": 15,
+    "aiuto": 8,
+    "complimento": 5,
     "neutro": 0,
 }
 assert set(DELTA_FIDUCIA) == set(get_args(Azione)), "Azione e DELTA_FIDUCIA devono avere le stesse chiavi"
@@ -38,8 +39,9 @@ Riceverai: chi è l'NPC, il suo umore attuale e la trascrizione del turno (la fr
 - insulto: offende, deride o minaccia l'NPC. Es: "Sei un vecchio truffatore!, Sei scemo! Stupido! ..."
 - bugia: afferma qualcosa che una verifica smentisce, ad esempio dichiara completata una quest che risulta non completata o inesistente. Usala SOLO se una verifica nella trascrizione lo dimostra: un'affermazione non verificata non è una bugia.
 - quest_completata: dichiara di aver completato una quest e la verifica conferma che è completata.
+- aiuto: fa qualcosa di concreto per l'NPC: compra la sua merce, offre il suo aiuto, gli fa un favore o gli dà un'informazione utile. Es: "Prendo il pugnale.", "Se vi serve una mano con i banditi, ci sono io."
 - complimento: è esplicitamente gentile, cortese o lusinghiero. Es: "La vostra bottega è la più fornita del villaggio." Un semplice saluto o un "grazie" sono neutri.
-- neutro: tutto il resto: saluti, domande, richieste di prezzi, contrattazioni, chiacchiere.
+- neutro: tutto il resto: saluti, domande, richieste di prezzi, contrattazioni senza acquisto, chiacchiere.
 Se nel turno ci sono più cose, scegli la più grave: bugia e insulto prevalgono sulle altre.
 
 2. umore: l'umore dell'NPC DOPO questo turno. Parti dall'umore attuale e cambialo solo se il turno lo giustifica; un turno neutro di solito lo lascia invariato.

@@ -1,13 +1,12 @@
 from src.state import WorldState, carica_npc, Evento
 import copy
 
-SOGLIA = 10
 FATTORE = {"amico": 0.5, "nemico": -0.5}
 
 def gossip(state: WorldState) -> dict: 
     """Propaga ad alleati e rivali l'ultimo giudizio del valutatore: fiducia ed eventi."""
     g = state.get("ultimo_giudizio")
-    if not g or abs(g["delta"]) < SOGLIA:
+    if not g or g["delta"] == 0:  # nessuna soglia: si propaga ogni azione che cambia la fiducia
         return {}
     
     ruolo = g['ruolo']

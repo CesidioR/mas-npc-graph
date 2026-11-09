@@ -23,6 +23,10 @@ REGOLA_REAZIONE = (
     "anche se finora ti era simpatico: non ignorare l'offesa e non rispondere come se nulla fosse."
 )
 REGOLA_TONO ="Rivolgiti al giocatore sempre allo stesso modo (tu oppure voi, come negli esempi del tuo stile), senza cambiare a metà."
+REGOLA_VARIETA = (
+    "Gli esempi nel tuo stile mostrano il tono, non sono frasi da ripetere: "
+    "non cominciare due battute allo stesso modo e non riusare le stesse formule."
+)
 REGOLA_FORMATO = "Rispondi in italiano, in 1-3 frasi, come una battuta di dialogo."
 
 # Regole che compaiono solo se l'NPC ha lo strumento (campo "strumenti" di npc.json).
@@ -46,7 +50,7 @@ def regole(strumenti: list[str]) -> str:
         righe += REGOLE_STRUMENTI.get(s, [])
     if strumenti:
         righe.append(REGOLA_NASCONDI_STRUMENTI)
-    righe += [REGOLA_REAZIONE, REGOLA_TONO, REGOLA_FORMATO]
+    righe += [REGOLA_REAZIONE, REGOLA_TONO, REGOLA_VARIETA, REGOLA_FORMATO]
     return "Regole:\n" + "\n".join(f"- {r}" for r in righe)
 
 
