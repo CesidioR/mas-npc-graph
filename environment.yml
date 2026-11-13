@@ -9,6 +9,7 @@ dependencies:
       - langgraph
       - langchain
       - langchain-core   # messaggi e @tool: importato direttamente nel codice
+      - pydantic         # output strutturato del valutatore
       # Provider LLM
       - langchain-groq
       - langchain-google-genai

@@ -1,4 +1,4 @@
-from src.state import WorldState, carica_npc, Evento
+from src.state import WorldState, aggiorna_fiducia, carica_npc, delta_personale, Evento
 import copy
 
 FATTORE = {"amico": 0.5, "nemico": -0.5}
@@ -19,7 +19,8 @@ def gossip(state: WorldState) -> dict:
             continue
         for relazione, fattore in FATTORE.items():
             if ruolo in dati[n][relazione]:
-                npc[n]["fiducia"] = max(0, min(100, npc[n]["fiducia"] + int(g["delta"] * fattore)))
+                delta = delta_personale(g["delta"] * fattore, dati[n])
+                npc[n]["fiducia"] = aggiorna_fiducia(npc[n]["fiducia"], delta, g["azione"])
                 if g["evento"]:  # la fiducia si propaga sempre, la voce solo se c'è un fatto da raccontare
                     eventi.append(Evento(npc=n, testo=g["evento"], fonte="sentito dire"))
     return {"npc": npc, "eventi": eventi}

@@ -32,13 +32,21 @@ REGOLA_FORMATO = "Rispondi in italiano, in 1-3 frasi, come una battuta di dialog
 # Regole che compaiono solo se l'NPC ha lo strumento (campo "strumenti" di npc.json).
 REGOLE_STRUMENTI = {
     "verifica_quest": [
-        "Se il giocatore afferma di aver completato una quest, verificalo SEMPRE con lo strumento verifica_quest prima di rispondere: i giocatori a volte mentono. Non credere alla sua parola.",
+        "Se il giocatore afferma o lascia intendere di aver completato una quest, anche solo consegnandoti ciò che avevi chiesto (es. 'ecco il calco', 'ti ho portato le pellicce'), verificalo SEMPRE con lo strumento verifica_quest prima di rispondere: i giocatori a volte mentono. Non credere alla sua parola.",
+        "Verifica anche le imprese che non compaiono nell'elenco delle quest o che ti sembrano inventate: chiama verifica_quest con un id ricavato dalle sue parole (es. 'drago_montagna'). Solo il registro conferma che un'impresa non esiste.",
         "Se la verifica dice che la quest non è completata o non esiste, il giocatore ti ha mentito: reagisci come farebbe il tuo personaggio.",
-        "Paga la ricompensa solo per le quest assegnate da te. Per quelle assegnate da altri non pagare: di' al giocatore di riscuotere da chi gliel'ha affidata.",
-        "Ogni ricompensa si paga una sola volta: se nella conversazione l'hai già pagata, non pagarla di nuovo e ricordaglielo.",
+    ],
+    "riscuoti_quest": [
+        "Le monete di una ricompensa le consegni SOLO con lo strumento riscuoti_quest. Se la verifica conferma una quest che hai assegnato tu, paga SUBITO, nello stesso turno, senza aspettare che il giocatore te lo chieda. Se lo strumento rifiuta il pagamento (quest di un altro NPC, già pagata, non completata), non pagare e spiega il motivo a modo tuo.",
     ],
     "consulta_inventario": [
         "Per merce e prezzi usa lo strumento consulta_inventario. Nomina solo oggetti e prezzi che hai controllato con lo strumento: non inventarne mai.",
+    ],
+    "vendi": [
+        "Una vendita avviene SOLO con lo strumento vendi, quando il giocatore conferma l'acquisto e il prezzo. Se lo strumento rifiuta (esaurito, prezzo troppo basso, monete insufficienti), la vendita non c'è: dillo a modo tuo.",
+    ],
+    "accetta_furto": [
+        "Un furto su commissione è concordato SOLO con lo strumento accetta_furto, quando tu e il giocatore vi siete accordati su oggetto e compenso: è lui a pagarti. Se lo strumento rifiuta (non ti fidi abbastanza, compenso troppo basso, monete insufficienti, oggetto che non c'è), l'accordo non c'è: dillo a modo tuo. Puoi chiedere di più solo se il problema è il compenso, mai se non ti fidi del giocatore.",
     ],
 }
 REGOLA_NASCONDI_STRUMENTI = 'Non nominare mai strumenti, funzioni o verifiche nel dialogo: "controlli il registro", "ti ricordi", "hai sentito dire".'
@@ -90,6 +98,15 @@ def system_prompt(ruolo: str, state: WorldState) -> str:
             commercio = f"\nPuoi concedere al giocatore uno sconto fino al {info['sconto_massimo']:.0%}."
         else:
             commercio = "\nNon fare sconti al giocatore: non lo conosci abbastanza."
+
+    # Il furto su commissione segue la stessa logica dello sconto: la soglia la controlla Python.
+    if "soglia_furto" in info:
+        if attuale["fiducia"] >= info["soglia_furto"]:
+            commercio += "\nSe il giocatore ti chiede di rubare qualcosa per lui, puoi accettare il lavoro (e trattare sul compenso)."
+        else:
+            commercio += "\nSe il giocatore ti chiede di rubare qualcosa per lui, rifiuta e non trattare nemmeno sul prezzo: non ti fidi abbastanza di lui per lavorarci insieme."
+        if "accetta_furto" in info.get("strumenti", []):
+            commercio += f"\nNella bottega di Osvaldo ci sono: {', '.join(npc['mercante']['inventario'])}. Solo queste cose si possono rubare."
 
     # Solo i nomi della merce (senza, il modello ne inventa); prezzi e quantità restano al tool.
     if "inventario" in info:

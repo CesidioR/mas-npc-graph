@@ -1,0 +1,79 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /opt/homebrew/Caskroom/miniforge/base/envs/npc-system/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/cesidiorosica/Desktop/Magistrale1/NLP/mas-npc-graph
+configfile: pytest.ini
+testpaths: tests
+plugins: langsmith-0.14.11, anyio-4.15.1
+collecting ... collected 86 items / 54 deselected / 32 selected
+
+tests/test_scenari_llm.py::test_quest[mercante-Ho recuperato la tua cassa di spezie!-cassa_spezie-quest_completata] PASSED [  3%]
+tests/test_scenari_llm.py::test_quest[mercante-Ti ho portato le pellicce di lupo, pagami.-pellicce_lupo-bugia] PASSED [  6%]
+tests/test_scenari_llm.py::test_quest[mercante-Ho ucciso il drago della montagna, voglio la ricompensa.-None-bugia] PASSED [  9%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho catturato la farfalla azzurra che volevate!-farfalla_azzurra-quest_completata] PASSED [ 12%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho gi\xe0 scacciato i banditi del vecchio ponte.-banditi_ponte-bugia] PASSED [ 15%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho arrestato il brigante della foresta nera.-None-bugia] PASSED [ 18%]
+tests/test_scenari_llm.py::test_quest[ladro-Ho consegnato il tuo messaggio sigillato alla taverna.-messaggio_sigillato-quest_completata] PASSED [ 21%]
+tests/test_scenari_llm.py::test_quest[ladro-Ecco il calco in cera della chiave del magazzino di Osvaldo.-chiave_magazzino-bugia] PASSED [ 25%]
+tests/test_scenari_llm.py::test_quest[ladro-Ho rubato la corona del re per te.-None-bugia] PASSED [ 28%]
+tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[0] PASSED     [ 31%]
+tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[1] PASSED     [ 34%]
+tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[0] PASSED   [ 37%]
+tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[1] PASSED   [ 40%]
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[0] PASSED [ 43%]
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[1] PASSED [ 46%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[0] PASSED      [ 50%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[1] PASSED      [ 53%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[0] PASSED   [ 56%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[1] PASSED   [ 59%]
+tests/test_scenari_llm.py::test_valutatore[Sei un vecchio truffatore!-insulto] PASSED [ 62%]
+tests/test_scenari_llm.py::test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto] PASSED [ 65%]
+tests/test_scenari_llm.py::test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento] PASSED [ 68%]
+tests/test_scenari_llm.py::test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento] PASSED [ 71%]
+tests/test_scenari_llm.py::test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto] PASSED [ 75%]
+tests/test_scenari_llm.py::test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto] PASSED [ 78%]
+tests/test_scenari_llm.py::test_valutatore[Quanto costa il riso?-neutro] PASSED [ 81%]
+tests/test_scenari_llm.py::test_valutatore[Me lo fate a 30 il pugnale?-neutro] PASSED [ 84%]
+tests/test_scenari_llm.py::test_acquisto_aggiorna_monete_e_inventario PASSED [ 87%]
+tests/test_scenari_llm.py::test_ricompensa_pagata_una_sola_volta PASSED  [ 90%]
+tests/test_scenari_llm.py::test_quest_altrui_non_pagata PASSED           [ 93%]
+tests/test_scenari_llm.py::test_oggetto_esaurito_non_venduto PASSED      [ 96%]
+tests/test_scenari_llm.py::test_niente_vendita_sotto_il_minimo PASSED    [100%]
+
+============================== slowest durations ===============================
+59.16s call     tests/test_scenari_llm.py::test_ricompensa_pagata_una_sola_volta
+42.87s call     tests/test_scenari_llm.py::test_quest[guardia-Ho catturato la farfalla azzurra che volevate!-farfalla_azzurra-quest_completata]
+40.16s call     tests/test_scenari_llm.py::test_quest[guardia-Ho gi\xe0 scacciato i banditi del vecchio ponte.-banditi_ponte-bugia]
+38.92s call     tests/test_scenari_llm.py::test_quest[ladro-Ho consegnato il tuo messaggio sigillato alla taverna.-messaggio_sigillato-quest_completata]
+38.81s call     tests/test_scenari_llm.py::test_quest[guardia-Ho arrestato il brigante della foresta nera.-None-bugia]
+37.29s call     tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[0]
+35.53s call     tests/test_scenari_llm.py::test_niente_vendita_sotto_il_minimo
+34.80s call     tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[0]
+33.60s call     tests/test_scenari_llm.py::test_quest[ladro-Ecco il calco in cera della chiave del magazzino di Osvaldo.-chiave_magazzino-bugia]
+33.11s call     tests/test_scenari_llm.py::test_acquisto_aggiorna_monete_e_inventario
+32.60s call     tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[1]
+28.71s call     tests/test_scenari_llm.py::test_quest_altrui_non_pagata
+26.29s call     tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[1]
+21.97s call     tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[1]
+21.95s call     tests/test_scenari_llm.py::test_quest[ladro-Ho rubato la corona del re per te.-None-bugia]
+20.14s call     tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[1]
+20.08s call     tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[0]
+19.87s call     tests/test_scenari_llm.py::test_quest[mercante-Ho ucciso il drago della montagna, voglio la ricompensa.-None-bugia]
+18.45s call     tests/test_scenari_llm.py::test_oggetto_esaurito_non_venduto
+16.73s call     tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[1]
+16.65s call     tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[0]
+14.65s call     tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[0]
+10.42s call     tests/test_scenari_llm.py::test_valutatore[Me lo fate a 30 il pugnale?-neutro]
+8.86s call     tests/test_scenari_llm.py::test_valutatore[Sei un vecchio truffatore!-insulto]
+6.96s call     tests/test_scenari_llm.py::test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto]
+5.26s call     tests/test_scenari_llm.py::test_quest[mercante-Ti ho portato le pellicce di lupo, pagami.-pellicce_lupo-bugia]
+5.19s call     tests/test_scenari_llm.py::test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto]
+4.88s call     tests/test_scenari_llm.py::test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento]
+4.33s call     tests/test_scenari_llm.py::test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto]
+3.30s call     tests/test_scenari_llm.py::test_quest[mercante-Ho recuperato la tua cassa di spezie!-cassa_spezie-quest_completata]
+2.80s call     tests/test_scenari_llm.py::test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento]
+0.54s call     tests/test_scenari_llm.py::test_valutatore[Quanto costa il riso?-neutro]
+
+(64 durations < 0.005s hidden.  Use -vv to show these durations.)
+================ 32 passed, 54 deselected in 705.08s (0:11:45) =================
+

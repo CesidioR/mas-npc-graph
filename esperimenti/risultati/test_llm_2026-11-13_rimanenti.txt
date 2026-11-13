@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /opt/homebrew/Caskroom/miniforge/base/envs/npc-system/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/cesidiorosica/Desktop/Magistrale1/NLP/mas-npc-graph
+configfile: pytest.ini
+testpaths: tests
+plugins: langsmith-0.14.11, anyio-4.15.1
+collecting ... collected 105 items / 86 deselected / 19 selected
+
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[0] PASSED [  5%]
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[1] PASSED [ 10%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[0] PASSED      [ 15%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[1] PASSED      [ 21%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[0] PASSED   [ 26%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[1] PASSED   [ 31%]
+tests/test_scenari_llm.py::test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto] PASSED [ 36%]
+tests/test_scenari_llm.py::test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento] PASSED [ 42%]
+tests/test_scenari_llm.py::test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento] PASSED [ 47%]
+tests/test_scenari_llm.py::test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto] PASSED [ 52%]
+tests/test_scenari_llm.py::test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto] PASSED [ 57%]
+tests/test_scenari_llm.py::test_valutatore[Quanto costa il riso?-neutro] PASSED [ 63%]
+tests/test_scenari_llm.py::test_valutatore[Me lo fate a 30 il pugnale?-neutro] PASSED [ 68%]
+tests/test_scenari_llm.py::test_acquisto_aggiorna_monete_e_inventario PASSED [ 73%]
+tests/test_scenari_llm.py::test_oggetto_esaurito_non_venduto PASSED      [ 78%]
+tests/test_scenari_llm.py::test_niente_vendita_sotto_il_minimo PASSED    [ 84%]
+tests/test_scenari_llm.py::test_furto_concordato_aggiorna_lo_stato PASSED [ 89%]
+tests/test_scenari_llm.py::test_furto_sotto_soglia_non_avviene PASSED    [ 94%]
+tests/test_scenari_llm.py::test_furto_con_compenso_troppo_basso_non_avviene PASSED [100%]
+
+================ 19 passed, 86 deselected in 337.74s (0:05:37) =================
+

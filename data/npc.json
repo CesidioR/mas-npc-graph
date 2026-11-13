@@ -14,9 +14,13 @@
         "umore_iniziale": "sereno",
         "amico": ["guardia"],
         "nemico": ["ladro"],
-        "strumenti": ["verifica_quest", "consulta_inventario"],
+        "strumenti": ["verifica_quest", "riscuoti_quest", "consulta_inventario", "vendi"],
         "soglia_sconto": 75,
         "sconto_massimo": 0.2,
+        "sensibilita": {
+          "positivo": 1.0,
+          "negativo": 1.0
+        },
         "inventario": {
             "armatura":{ "prezzo": 120, "quantita": 1 },
             "pugnale":{ "prezzo": 35,  "quantita": 3 },
@@ -33,7 +37,11 @@
         "umore_iniziale": "sereno",
         "amico": ["mercante"],
         "nemico": ["ladro"],
-        "strumenti": ["verifica_quest"]
+        "strumenti": ["verifica_quest", "riscuoti_quest"],
+        "sensibilita": {
+          "positivo": 1.5,
+          "negativo": 0.6
+        }
     },
     "ladro": {
         "nome": "Marlon",
@@ -43,8 +51,14 @@
         "umore_iniziale": "sospettoso",
         "amico": [ ],
         "nemico": ["guardia", "mercante"],
-        "strumenti": ["verifica_quest"],
-        "soglia_furto": 70
+        "strumenti": ["verifica_quest", "riscuoti_quest", "accetta_furto"],
+        "soglia_furto": 70,
+        "compenso_minimo": 0.4,
+        "compenso_massimo": 1.0,
+        "sensibilita": {
+          "positivo": 0.5,
+          "negativo": 1.2
+        }
     }
   }
 }

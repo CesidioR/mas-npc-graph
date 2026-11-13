@@ -1,5 +1,5 @@
 from typing import Literal, get_args
-from src.state import WorldState, Umore, carica_npc, Evento, Giudizio
+from src.state import WorldState, Umore, aggiorna_fiducia, carica_npc, delta_personale, Evento, Giudizio
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage, SystemMessage
 from pydantic import BaseModel, Field
 from src.llm import get_llm
@@ -20,7 +20,7 @@ class Valutazione(BaseModel):
 # 2. Quanto vale ogni azione: la decide Python, non l'LLM.
 # Asimmetrica: la fiducia si perde più in fretta di quanto si guadagni.
 DELTA_FIDUCIA: dict[str, int] = {
-    "insulto": -15,
+    "insulto": -10,
     "bugia": -20,
     "quest_completata": 15,
     "aiuto": 8,
@@ -54,11 +54,22 @@ Restituisci null se il turno è neutro o non c'è niente di significativo da ric
 
 Giudica solo ciò che fa il giocatore, non le risposte dell'NPC."""
 
+def turno_corrente(messages: list) -> list:
+    """I messaggi del turno corrente: dall'ultimo messaggio del giocatore in poi."""
+    inizio = max(i for i, m in enumerate(messages) if isinstance(m, HumanMessage))
+    return messages[inizio:]
+
+
+def ricompensa_pagata(messages: list) -> bool:
+    """True se nel turno corrente riscuoti_quest ha davvero pagato una ricompensa."""
+    return any(isinstance(m, ToolMessage) and isinstance(m.artifact, dict) and m.artifact.get("quest_pagata")
+               for m in turno_corrente(messages))
+
+
 def trascrivi_turno(messages: list, nome_npc: str) -> str:
     """Il turno corrente (dall'ultimo messaggio del giocatore) come testo da far leggere al giudice."""
-    inizio = max(i for i, m in enumerate(messages) if isinstance(m, HumanMessage))
     righe = []
-    for m in messages[inizio:]:
+    for m in turno_corrente(messages):
         if isinstance(m, HumanMessage):
             righe.append(f"Giocatore: {m.content}")
         elif isinstance(m, ToolMessage):
@@ -77,10 +88,17 @@ def valutatore(state: WorldState) -> dict:
     attuale = state["npc"][ruolo]
     contesto = f"NPC: {nome_npc} ({ruolo}). Umore attuale: {attuale['umore']}.\n\nTrascrizione del turno:\n{trascrivi_turno(state['messages'], nome_npc)}"
     v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
-    evento = Evento(npc=ruolo, testo=v.evento, fonte="vissuto") if v.evento else None
+    azione, testo_evento = v.azione, v.evento
+    # Una quest vale fiducia una sola volta: nel turno in cui la ricompensa viene pagata.
+    # Senza pagamento (già riscossa, quest di un altro NPC, NPC che non ha pagato) il turno è neutro.
+    if azione == "quest_completata" and not ricompensa_pagata(state["messages"]):
+        azione, testo_evento = "neutro", None
+    evento = Evento(npc=ruolo, testo=testo_evento, fonte="vissuto") if testo_evento else None
 
-    
-    nuova_fiducia = max(0, min(100, attuale["fiducia"] + DELTA_FIDUCIA[v.azione]))
+    delta = delta_personale(DELTA_FIDUCIA[azione], carica_npc()[ruolo])  # il carattere dell'NPC
+    nuova_fiducia = aggiorna_fiducia(attuale["fiducia"], delta, azione)
+
     npc = {**state["npc"], ruolo: {"fiducia": nuova_fiducia, "umore": v.umore}}
-    return {"npc": npc, "eventi": [evento] if evento else [], "ultimo_giudizio": Giudizio(ruolo=ruolo, azione=v.azione, delta=DELTA_FIDUCIA[v.azione], evento=v.evento)}
+    return {"npc": npc, "eventi": [evento] if evento else [],
+            "ultimo_giudizio": Giudizio(ruolo=ruolo, azione=azione, delta=DELTA_FIDUCIA[azione], evento=testo_evento)}
     

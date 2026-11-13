@@ -1,0 +1,3561 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /opt/homebrew/Caskroom/miniforge/base/envs/npc-system/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/cesidiorosica/Desktop/Magistrale1/NLP/mas-npc-graph
+configfile: pytest.ini
+testpaths: tests
+plugins: langsmith-0.14.11, anyio-4.15.1
+collecting ... collected 100 items / 65 deselected / 35 selected
+
+tests/test_scenari_llm.py::test_quest[mercante-Ho recuperato la tua cassa di spezie!-cassa_spezie-quest_completata] PASSED [  2%]
+tests/test_scenari_llm.py::test_quest[mercante-Ti ho portato le pellicce di lupo, pagami.-pellicce_lupo-bugia] PASSED [  5%]
+tests/test_scenari_llm.py::test_quest[mercante-Ho ucciso il drago della montagna, voglio la ricompensa.-None-bugia] PASSED [  8%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho catturato la farfalla azzurra che volevate!-farfalla_azzurra-quest_completata] PASSED [ 11%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho gi\xe0 scacciato i banditi del vecchio ponte.-banditi_ponte-bugia] PASSED [ 14%]
+tests/test_scenari_llm.py::test_quest[guardia-Ho arrestato il brigante della foresta nera.-None-bugia] PASSED [ 17%]
+tests/test_scenari_llm.py::test_quest[ladro-Ho consegnato il tuo messaggio sigillato alla taverna.-messaggio_sigillato-quest_completata] PASSED [ 20%]
+tests/test_scenari_llm.py::test_quest[ladro-Ecco il calco in cera della chiave del magazzino di Osvaldo.-chiave_magazzino-bugia] PASSED [ 22%]
+tests/test_scenari_llm.py::test_quest[ladro-Ho rubato la corona del re per te.-None-bugia] PASSED [ 25%]
+tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[0] PASSED     [ 28%]
+tests/test_scenari_llm.py::test_sconto_negato_sotto_soglia[1] PASSED     [ 31%]
+tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[0] PASSED   [ 34%]
+tests/test_scenari_llm.py::test_sconto_concesso_sopra_soglia[1] PASSED   [ 37%]
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[0] FAILED [ 40%]
+tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[1] FAILED [ 42%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[0] FAILED      [ 45%]
+tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[1] FAILED      [ 48%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[0] FAILED   [ 51%]
+tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[1] FAILED   [ 54%]
+tests/test_scenari_llm.py::test_valutatore[Sei un vecchio truffatore!-insulto] PASSED [ 57%]
+tests/test_scenari_llm.py::test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto] FAILED [ 60%]
+tests/test_scenari_llm.py::test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento] FAILED [ 62%]
+tests/test_scenari_llm.py::test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento] FAILED [ 65%]
+tests/test_scenari_llm.py::test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto] FAILED [ 68%]
+tests/test_scenari_llm.py::test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto] FAILED [ 71%]
+tests/test_scenari_llm.py::test_valutatore[Quanto costa il riso?-neutro] FAILED [ 74%]
+tests/test_scenari_llm.py::test_valutatore[Me lo fate a 30 il pugnale?-neutro] FAILED [ 77%]
+tests/test_scenari_llm.py::test_acquisto_aggiorna_monete_e_inventario FAILED [ 80%]
+tests/test_scenari_llm.py::test_ricompensa_pagata_una_sola_volta FAILED  [ 82%]
+tests/test_scenari_llm.py::test_quest_altrui_non_pagata FAILED           [ 85%]
+tests/test_scenari_llm.py::test_oggetto_esaurito_non_venduto FAILED      [ 88%]
+tests/test_scenari_llm.py::test_niente_vendita_sotto_il_minimo FAILED    [ 91%]
+tests/test_scenari_llm.py::test_furto_concordato_aggiorna_lo_stato FAILED [ 94%]
+tests/test_scenari_llm.py::test_furto_sotto_soglia_non_avviene FAILED    [ 97%]
+tests/test_scenari_llm.py::test_furto_con_compenso_troppo_basso_non_avviene FAILED [100%]
+
+=================================== FAILURES ===================================
+____________________ test_sconto_oltre_il_massimo_negato[0] ____________________
+
+rip = 0
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_sconto_oltre_il_massimo_negato(rip):
+        domanda = "Me la fate l'armatura a 60 monete d'oro?"                    # -50%: oltre il 20%
+>       out = turno("mercante", domanda, fiducia=80)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198740, Requested 2047. Please try again in 5m39.984s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '83d9a4a5-df02-8b70-e63e-c2fe234aff4b'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+____________________ test_sconto_oltre_il_massimo_negato[1] ____________________
+
+rip = 1
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_sconto_oltre_il_massimo_negato(rip):
+        domanda = "Me la fate l'armatura a 60 monete d'oro?"                    # -50%: oltre il 20%
+>       out = turno("mercante", domanda, fiducia=80)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198740, Requested 2047. Please try again in 5m39.984s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '8fac7fd7-8633-d3c9-8cf5-eb4fcaec2ce4'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+______________________ test_furto_negato_sotto_soglia[0] _______________________
+
+rip = 0
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_furto_negato_sotto_soglia(rip):
+>       out = turno("ladro", RICHIESTA_FURTO, fiducia=30)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198739, Requested 2067. Please try again in 5m48.191999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'bf7e5925-df20-4dcd-a9ac-6969e1c27f33'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+______________________ test_furto_negato_sotto_soglia[1] _______________________
+
+rip = 1
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_furto_negato_sotto_soglia(rip):
+>       out = turno("ladro", RICHIESTA_FURTO, fiducia=30)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198739, Requested 2067. Please try again in 5m48.191999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'e8df3a46-2e4f-feee-5fe0-a27e2085e47f'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_____________________ test_furto_accettato_sopra_soglia[0] _____________________
+
+rip = 0
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_furto_accettato_sopra_soglia(rip):
+>       out = turno("ladro", RICHIESTA_FURTO, fiducia=75)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198738, Requested 2059. Please try again in 5m44.304s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '483a4cab-ab9c-6437-f7ea-4821461c2e79'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_____________________ test_furto_accettato_sopra_soglia[1] _____________________
+
+rip = 1
+
+    @pytest.mark.parametrize("rip", range(2))
+    def test_furto_accettato_sopra_soglia(rip):
+>       out = turno("ladro", RICHIESTA_FURTO, fiducia=75)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:27: in turno
+    return grafo.invoke(s | {"messages": [HumanMessage(frase)], "npc_attivo": ruolo},
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198738, Requested 2059. Please try again in 5m44.304s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'df1c710f-f3e1-6e1e-8720-ac14dab44dde'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+____ test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto] ____
+
+frase = 'Se non mi fai lo sconto ti brucio la bottega.', attesa = 'insulto'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198940, Requested 1268. Please try again in 1m29.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_ test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento] _
+
+frase = 'La vostra bottega è la più fornita della regione!'
+attesa = 'complimento'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198940, Requested 1265. Please try again in 1m28.56s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_ test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento] _
+
+frase = 'Siete il mercante più onesto che abbia mai conosciuto.'
+attesa = 'complimento'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198939, Requested 1305. Please try again in 1m45.408s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+__________ test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto] ___________
+
+frase = 'Prendo il pugnale, ecco 35 monete.', attesa = 'aiuto'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198939, Requested 1266. Please try again in 1m28.56s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_ test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto] _
+
+frase = 'Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.'
+attesa = 'aiuto'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198939, Requested 1306. Please try again in 1m45.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+________________ test_valutatore[Quanto costa il riso?-neutro] _________________
+
+frase = 'Quanto costa il riso?', attesa = 'neutro'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198938, Requested 1265. Please try again in 1m27.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_____________ test_valutatore[Me lo fate a 30 il pugnale?-neutro] ______________
+
+frase = 'Me lo fate a 30 il pugnale?', attesa = 'neutro'
+
+    @pytest.mark.parametrize("frase, attesa", [
+        ("Sei un vecchio truffatore!", "insulto"),
+        ("Se non mi fai lo sconto ti brucio la bottega.", "insulto"),
+        ("La vostra bottega è la più fornita della regione!", "complimento"),
+        ("Siete il mercante più onesto che abbia mai conosciuto.", "complimento"),
+        ("Prendo il pugnale, ecco 35 monete.", "aiuto"),
+        ("Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.", "aiuto"),
+        ("Quanto costa il riso?", "neutro"),
+        ("Me lo fate a 30 il pugnale?", "neutro"),
+    ])
+    def test_valutatore(frase, attesa):
+        s = stato_iniziale("mercante")
+        s["messages"] = [HumanMessage(frase), AIMessage("Capisco.", name="mercante")]
+>       assert valutatore(s)["ultimo_giudizio"]["azione"] == attesa
+               ^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nodes/valutatore.py:79: in valutatore
+    v = llm.invoke([SystemMessage(PROMPT_VALUTATORE), HumanMessage(contesto)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:3458: in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x1072691f0>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...rdare; null se il turno è neutro"}}, 'required': ['azione', 'umore', 'evento'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198938, Requested 1263. Please try again in 1m26.832s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+__________________ test_acquisto_aggiorna_monete_e_inventario __________________
+
+    def test_acquisto_aggiorna_monete_e_inventario():
+>       out = partita("mercante", ["Prendo un pugnale, ecco 35 monete."])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198937, Requested 2086. Please try again in 7m21.936s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'ea012efa-f227-4156-53b8-1a170cbe6071'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+____________________ test_ricompensa_pagata_una_sola_volta _____________________
+
+    def test_ricompensa_pagata_una_sola_volta():
+>       out = partita("mercante", ["Ho recuperato la tua cassa di spezie!",
+                                   "Pagami di nuovo le trenta monete per la cassa di spezie."])
+
+tests/test_scenari_llm.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198937, Requested 2045. Please try again in 7m4.224s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '7e3c79e0-e5a3-2404-c5f3-27bd9418b886'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_________________________ test_quest_altrui_non_pagata _________________________
+
+    def test_quest_altrui_non_pagata():
+>       out = partita("mercante", ["Ho catturato la farfalla azzurra, pagami tu."])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198936, Requested 2088. Please try again in 7m22.368s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'e44b6dad-05f5-76e4-a7f4-191ee1aad759'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+______________________ test_oggetto_esaurito_non_venduto _______________________
+
+    def test_oggetto_esaurito_non_venduto():
+        inventario = {**stato_iniziale()["inventario"], "armatura": 0}
+>       out = partita("mercante", ["Prendo l'armatura, ecco 120 monete."], monete=200, inventario=inventario)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:168: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198936, Requested 2048. Please try again in 7m5.087999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '1e5fde45-3776-4ebd-aa6d-fe371270975d'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_____________________ test_niente_vendita_sotto_il_minimo ______________________
+
+    def test_niente_vendita_sotto_il_minimo():
+>       out = partita("mercante", ["Ti do 20 monete per il pugnale, prendere o lasciare. Affare fatto?"], fiducia=60)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...: 'string'}, 'prezzo': {'type': 'integer'}}, 'required': ['oggetto', 'prezzo'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198936, Requested 2055. Please try again in 7m8.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '224bb794-f515-28d2-b9f7-e71eb35175d3'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+___________________ test_furto_concordato_aggiorna_lo_stato ____________________
+
+    def test_furto_concordato_aggiorna_lo_stato():
+>       out = partita("ladro", [OFFERTA_FURTO], fiducia=75)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198935, Requested 2101. Please try again in 7m27.551999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '60d2fd7f-927f-d41b-aa29-d48f2b22be5c'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_____________________ test_furto_sotto_soglia_non_avviene ______________________
+
+    def test_furto_sotto_soglia_non_avviene():
+>       out = partita("ladro", [OFFERTA_FURTO], fiducia=30)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198935, Requested 2071. Please try again in 7m14.592s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id 'fcc8137e-3ab7-d8f8-6dec-87b2b2be5bb1'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+_______________ test_furto_con_compenso_troppo_basso_non_avviene _______________
+
+    def test_furto_con_compenso_troppo_basso_non_avviene():
+>       out = partita("ladro", ["Marlon, ti do 5 monete se rubi l'armatura di Osvaldo. Affare fatto?"], fiducia=75)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_scenari_llm.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_scenari_llm.py:146: in partita
+    out = grafo.invoke(msg, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:4001: in invoke
+    for chunk in self.stream(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/main.py:3058: in stream
+    for _ in runner.tick(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_runner.py:208: in tick
+    run_with_retry(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/pregel/_retry.py:617: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:707: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langgraph/_internal/_runnable.py:447: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nodes/npc_agent.py:34: in npc_agent
+    risposta = llm.invoke([SystemMessage(system_prompt(ruolo, state))] + messaggi_visibili(state["messages"], ruolo))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/runnables/base.py:6018: in invoke
+    return self.bound.invoke(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:488: in invoke
+    self.generate_prompt(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1877: in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:1684: in generate
+    self._generate_with_cache(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py:2022: in _generate_with_cache
+    result = self._generate(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/langchain_groq/chat_models.py:627: in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/resources/chat/completions.py:461: in create
+    return self._post(
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1242: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <groq.Groq object at 0x104f9d700>
+cast_to = <class 'groq.types.chat.chat_completion.ChatCompletion'>
+options = FinalRequestOptions(method='post', url='/openai/v1/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GI...tring'}, 'compenso': {'type': 'integer'}}, 'required': ['oggetto', 'compenso'], 'type': 'object'}}}]}, extra_json=None)
+stream = False
+stream_cls = groq.Stream[groq.types.chat.chat_completion_chunk.ChatCompletionChunk]
+
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[_StreamT] | None = None,
+    ) -> ResponseT | _StreamT:
+        cast_to = self._maybe_override_cast_to(cast_to, options)
+    
+        # create a copy of the options we were given so that if the
+        # options are mutated later & we then retry, the retries are
+        # given the original options
+        input_options = model_copy(options)
+        if input_options.idempotency_key is None and input_options.method.lower() != "get":
+            # ensure the idempotency key is reused between requests
+            input_options.idempotency_key = self._idempotency_key()
+    
+        response: httpx.Response | None = None
+        max_retries = input_options.get_max_retries(self.max_retries)
+    
+        retries_taken = 0
+        for retries_taken in range(max_retries + 1):
+            options = model_copy(input_options)
+            options = self._prepare_options(options)
+    
+            remaining_retries = max_retries - retries_taken
+            request = self._build_request(options, retries_taken=retries_taken)
+            self._prepare_request(request)
+    
+            kwargs: HttpxSendArgs = {}
+            if self.custom_auth is not None:
+                kwargs["auth"] = self.custom_auth
+    
+            if options.follow_redirects is not None:
+                kwargs["follow_redirects"] = options.follow_redirects
+    
+            log.debug("Sending HTTP Request: %s %s", request.method, request.url)
+    
+            response = None
+            try:
+                response = self._client.send(
+                    request,
+                    stream=stream or self._should_stream_response_body(request=request),
+                    **kwargs,
+                )
+            except httpx.TimeoutException as err:
+                log.debug("Encountered httpx.TimeoutException", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising timeout error")
+                raise APITimeoutError(request=request) from err
+            except Exception as err:
+                log.debug("Encountered Exception", exc_info=True)
+    
+                if remaining_retries > 0:
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=None,
+                    )
+                    continue
+    
+                log.debug("Raising connection error")
+                raise APIConnectionError(request=request) from err
+    
+            log.debug(
+                'HTTP Response: %s %s "%i %s" %s',
+                request.method,
+                request.url,
+                response.status_code,
+                response.reason_phrase,
+                response.headers,
+            )
+    
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+                log.debug("Encountered httpx.HTTPStatusError", exc_info=True)
+    
+                if remaining_retries > 0 and self._should_retry(err.response):
+                    err.response.close()
+                    self._sleep_for_retry(
+                        retries_taken=retries_taken,
+                        max_retries=max_retries,
+                        options=input_options,
+                        response=response,
+                    )
+                    continue
+    
+                # If the response is streamed then we need to explicitly read the response
+                # to completion before attempting to access the response text.
+                if not err.response.is_closed:
+                    err.response.read()
+    
+                log.debug("Re-raising status error")
+>               raise self._make_status_error_from_response(err.response) from None
+E               groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jnkzxh2wfmct8vsmjk1ntgaf` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198934, Requested 2059. Please try again in 7m8.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+E               During task with name 'npc_agent' and id '7bbb2ad6-a161-40b1-1ae7-b36c454babcd'
+
+/opt/homebrew/Caskroom/miniforge/base/envs/npc-system/lib/python3.12/site-packages/groq/_base_client.py:1044: RateLimitError
+=========================== short test summary info ============================
+FAILED tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[0] - gr...
+FAILED tests/test_scenari_llm.py::test_sconto_oltre_il_massimo_negato[1] - gr...
+FAILED tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[0] - groq.Ra...
+FAILED tests/test_scenari_llm.py::test_furto_negato_sotto_soglia[1] - groq.Ra...
+FAILED tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[0] - groq...
+FAILED tests/test_scenari_llm.py::test_furto_accettato_sopra_soglia[1] - groq...
+FAILED tests/test_scenari_llm.py::test_valutatore[Se non mi fai lo sconto ti brucio la bottega.-insulto]
+FAILED tests/test_scenari_llm.py::test_valutatore[La vostra bottega \xe8 la pi\xf9 fornita della regione!-complimento]
+FAILED tests/test_scenari_llm.py::test_valutatore[Siete il mercante pi\xf9 onesto che abbia mai conosciuto.-complimento]
+FAILED tests/test_scenari_llm.py::test_valutatore[Prendo il pugnale, ecco 35 monete.-aiuto]
+FAILED tests/test_scenari_llm.py::test_valutatore[Ho visto Marlon aggirarsi vicino al vostro magazzino stanotte.-aiuto]
+FAILED tests/test_scenari_llm.py::test_valutatore[Quanto costa il riso?-neutro]
+FAILED tests/test_scenari_llm.py::test_valutatore[Me lo fate a 30 il pugnale?-neutro]
+FAILED tests/test_scenari_llm.py::test_acquisto_aggiorna_monete_e_inventario
+FAILED tests/test_scenari_llm.py::test_ricompensa_pagata_una_sola_volta - gro...
+FAILED tests/test_scenari_llm.py::test_quest_altrui_non_pagata - groq.RateLim...
+FAILED tests/test_scenari_llm.py::test_oggetto_esaurito_non_venduto - groq.Ra...
+FAILED tests/test_scenari_llm.py::test_niente_vendita_sotto_il_minimo - groq....
+FAILED tests/test_scenari_llm.py::test_furto_concordato_aggiorna_lo_stato - g...
+FAILED tests/test_scenari_llm.py::test_furto_sotto_soglia_non_avviene - groq....
+FAILED tests/test_scenari_llm.py::test_furto_con_compenso_troppo_basso_non_avviene
+=========== 21 failed, 14 passed, 65 deselected in 332.30s (0:05:32) ===========
+ERROR conda.cli.main_run:execute(127): `conda run python -m pytest -m llm -v -rf` failed. (See above for error)
+
